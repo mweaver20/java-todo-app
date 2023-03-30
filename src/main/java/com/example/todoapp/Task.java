@@ -3,7 +3,7 @@ package com.example.todoapp;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tasks", schema = "NewTodoList", catalog = "")
+@Table(name = "tasks", schema = "NewTodoList")
 public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -13,6 +13,10 @@ public class Task {
     @Column(name = "taskDescription")
     private String taskDescription;
 
+    public Task(){}
+    public Task(String taskDescription){
+        this.taskDescription = taskDescription;
+    }
     public int getTaskId() {
         return taskId;
     }
