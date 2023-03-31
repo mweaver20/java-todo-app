@@ -1,11 +1,9 @@
 package com.example.todoapp;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDao {
@@ -39,14 +37,17 @@ public class TaskDao {
     }
 
 
-    public List<Task> getAllTasks() {
+    public List<Task> getTasks(String searchTerm) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<Task> tasks = new ArrayList<>();
         try {
-            TypedQuery<Task> query = entityManager.createQuery("SELECT t FROM Task t", Task.class);
-            return query.getResultList();
+            String queryString = "SELECT * FROM tasks t WHERE t.taskDescription LIKE '%" + searchTerm + "%'";
+            Query query = entityManager.createNativeQuery(queryString, Task.class);
+            tasks = query.getResultList();
         } finally {
             entityManager.close();
         }
+        return tasks;
     }
 
     public void deleteTask(int taskId) {

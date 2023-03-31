@@ -16,7 +16,8 @@ public class GetTasksServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Task> tasks = taskDao.getAllTasks();
+        String searchTerm = request.getParameter("searchTerm");
+        List<Task> tasks = taskDao.getTasks(searchTerm);
         System.out.println("Retrieved " + tasks.size() + " tasks from database");
         request.setAttribute("tasks", tasks);
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
